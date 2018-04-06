@@ -37,21 +37,25 @@ public class Path {
         	{
         		ArrayList<Arc> successors = nodes.get(i).getSuccessors();
         		
-        		int idshortest = 0;
-        		double duree = successors.get(0).getMinimumTravelTime();
-        		for(int j = 1; j<nodes.get(i).getNumberOfSuccessors();j++)
+        		int idfastest = -1;
+        		double duree = Double.MAX_VALUE;
+        		for(int j = 0; j<successors.size();j++)
         		{
         			if(nodes.get(i+1).getId()== successors.get(j).getDestination().getId())
         			{
         				if(successors.get(j).getMinimumTravelTime() < duree )
         				{
-        					idshortest=j;
+        					idfastest=j;
         					duree =successors.get(j).getMinimumTravelTime();
         				}
         			}
         				
         		}
-        		arcs.add(successors.get(idshortest));
+        		if(idfastest == -1)
+        		{
+        			throw new IllegalArgumentException();
+        		}
+        		arcs.add(successors.get(idfastest));
         	}
         	else
         	{
@@ -99,9 +103,9 @@ public class Path {
         	{
         		ArrayList<Arc> successors = nodes.get(i).getSuccessors();
         		
-        		int idshortest = 0;
-        		float longueur = successors.get(0).getLength();
-        		for(int j = 1; j<nodes.get(i).getNumberOfSuccessors();j++)
+        		int idshortest = -1;
+        		float longueur = Float.MAX_VALUE;
+        		for(int j = 0; j<successors.size();j++)
         		{
         			if(nodes.get(i+1).getId()== successors.get(j).getDestination().getId())
         			{
@@ -113,12 +117,13 @@ public class Path {
         			}
         				
         		}
+        		if(idshortest == -1)
+        		{
+        			throw new IllegalArgumentException();
+        		}
         		arcs.add(successors.get(idshortest));
         	}
-        	else
-        	{
-        		throw new IllegalArgumentException();
-        	}
+        	
         	
         	
         }
