@@ -193,11 +193,24 @@ public class Path {
      * 
      * @return true if the path is valid, false otherwise.
      * 
-     * @deprecated Need to be implemented.
      */
     public boolean isValid() {
-        // TODO:
-        return false;
+        if(size() < 2 )
+        {
+        	return true;
+        }
+        int k=0;
+        if(this.origin == arcs.get(0).getOrigin())
+        {
+        	while( this.isConsecutiveto(this.arcs.get(k),this.arcs.get(k+1)) && k < this.arcs.size() ){
+            	k+=1;
+            }
+        }
+        
+        return k==arcs.size()? true : false ;
+    }
+    private boolean isConsecutiveto(Arc arc1,Arc arc2) {
+    	return arc1.getDestination() == arc2.getOrigin();
     }
 
     /**
@@ -205,11 +218,14 @@ public class Path {
      * 
      * @return Total length of the path (in meters).
      * 
-     * @deprecated Need to be implemented.
      */
     public float getLength() {
-        // TODO:
-        return 0;
+    	float length = 0;
+    	for(int i = 0; i<arcs.size();i++) {
+        	length+= arcs.get(i).getLength();
+        }
+
+        return length;
     }
 
     /**
@@ -220,11 +236,14 @@ public class Path {
      * @return Time (in seconds) required to travel this path at the given speed (in
      *         kilometers-per-hour).
      * 
-     * @deprecated Need to be implemented.
      */
     public double getTravelTime(double speed) {
-        // TODO:
-        return 0;
+    	double travelTime = 0;
+    	for(int i = 0; i<arcs.size();i++) {
+        	travelTime+= arcs.get(i).getTravelTime(speed);
+        }
+
+        return travelTime;
     }
 
     /**
@@ -233,11 +252,14 @@ public class Path {
      * 
      * @return Minimum travel time to travel this path (in seconds).
      * 
-     * @deprecated Need to be implemented.
      */
     public double getMinimumTravelTime() {
-        // TODO:
-        return 0;
+    	double travelTime = 0;
+    	for(int i = 0; i<arcs.size();i++) {
+        	travelTime+= arcs.get(i).getMinimumTravelTime();
+        }
+
+        return travelTime;
     }
 
 }
