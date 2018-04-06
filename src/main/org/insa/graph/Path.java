@@ -25,13 +25,54 @@ public class Path {
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
      * 
-     * @deprecated Need to be implemented.
      */
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
-        // TODO:
-        return new Path(graph, arcs);
+        for(int i = 0; i< nodes.size()-1; i++)
+        {
+        	
+        	
+        	if(nodes.get(i).hasSuccessors())
+        	{
+        		ArrayList<Arc> successors = nodes.get(i).getSuccessors();
+        		
+        		int idshortest = 0;
+        		double duree = successors.get(0).getMinimumTravelTime();
+        		for(int j = 1; j<nodes.get(i).getNumberOfSuccessors();j++)
+        		{
+        			if(nodes.get(i+1).getId()== successors.get(j).getDestination().getId())
+        			{
+        				if(successors.get(j).getMinimumTravelTime() < duree )
+        				{
+        					idshortest=j;
+        					duree =successors.get(j).getMinimumTravelTime();
+        				}
+        			}
+        				
+        		}
+        		arcs.add(successors.get(idshortest));
+        	}
+        	else
+        	{
+        		throw new IllegalArgumentException();
+        	}
+        	
+        	
+        }
+        if(arcs.size()>0)
+        {
+        	return new Path(graph, arcs);
+        }
+        else
+        {
+        	if(nodes.size()==1) 
+        	{
+        		return new Path(graph, nodes.get(0));
+        	}
+        	return new Path(graph);
+        	
+        }
     }
 
     /**
@@ -46,13 +87,55 @@ public class Path {
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
      * 
-     * @deprecated Need to be implemented.
      */
     public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
-        // TODO:
-        return new Path(graph, arcs);
+        for(int i = 0; i< nodes.size()-1; i++)
+        {
+        	
+        	
+        	if(nodes.get(i).hasSuccessors())
+        	{
+        		ArrayList<Arc> successors = nodes.get(i).getSuccessors();
+        		
+        		int idshortest = 0;
+        		float longueur = successors.get(0).getLength();
+        		for(int j = 1; j<nodes.get(i).getNumberOfSuccessors();j++)
+        		{
+        			if(nodes.get(i+1).getId()== successors.get(j).getDestination().getId())
+        			{
+        				if(successors.get(j).getLength() < longueur )
+        				{
+        					idshortest=j;
+        					longueur =successors.get(j).getLength();
+        				}
+        			}
+        				
+        		}
+        		arcs.add(successors.get(idshortest));
+        	}
+        	else
+        	{
+        		throw new IllegalArgumentException();
+        	}
+        	
+        	
+        }
+        if(arcs.size()>0)
+        {
+        	return new Path(graph, arcs);
+        }
+        else
+        {
+        	if(nodes.size()==1) 
+        	{
+        		return new Path(graph, nodes.get(0));
+        	}
+        	return new Path(graph);
+        	
+        }
+        
     }
 
     /**
@@ -195,22 +278,27 @@ public class Path {
      * 
      */
     public boolean isValid() {
-        if(size() < 2 )
+        if(this.size() < 2 )
         {
         	return true;
         }
-        int k=0;
-        if(this.origin == arcs.get(0).getOrigin())
+        int k=0;;
+        boolean continuer = true;
+        if(this.origin.getId() == arcs.get(0).getOrigin().getId())
         {
-        	while( this.isConsecutiveto(this.arcs.get(k),this.arcs.get(k+1)) && k < this.arcs.size() ){
-            	k+=1;
+        	while(continuer && k < this.arcs.size()-1){
+        		if (!this.isConsecutiveto(this.arcs.get(k),this.arcs.get(k+1)))
+        		{
+        			continuer = false;
+        			
+        		}
+        		k+=1;
             }
-        }
-        
-        return k==arcs.size()? true : false ;
+        }   
+        return continuer;
     }
     private boolean isConsecutiveto(Arc arc1,Arc arc2) {
-    	return arc1.getDestination() == arc2.getOrigin();
+    	return arc1.getDestination().getId() == arc2.getOrigin().getId();
     }
 
     /**
