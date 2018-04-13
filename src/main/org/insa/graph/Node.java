@@ -85,6 +85,9 @@ public final class Node implements Comparable<Node>, Iterable<Arc> {
     protected void addSuccessor(Arc arc) {
         successors.add(arc);
     }
+    public ArrayList<Arc> getSuccessors() {
+        return successors;
+    }
 
     /**
      * @return ID of this node.
