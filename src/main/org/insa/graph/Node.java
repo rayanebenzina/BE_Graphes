@@ -86,7 +86,15 @@ public final class Node implements Comparable<Node>, Iterable<Arc> {
         successors.add(arc);
     }
     public ArrayList<Arc> getSuccessors() {
-        return successors;
+    	ArrayList<Arc> copie = new ArrayList<Arc>();
+    	for(int i=0;i<successors.size();i++)
+    	{
+    		if(!copie.contains(successors.get(i)))
+    		{
+    			copie.add(successors.get(i));
+    		}
+    	}
+        return copie;
     }
 
     /**
