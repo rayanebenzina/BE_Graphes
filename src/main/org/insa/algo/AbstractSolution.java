@@ -2,6 +2,7 @@ package org.insa.algo;
 
 import java.time.Duration;
 
+
 /**
  * Base class for solution classes returned by the algorithm. This class
  * contains the basic information that any solution should have: status of the

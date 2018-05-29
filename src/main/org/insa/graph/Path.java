@@ -220,7 +220,15 @@ public class Path {
         this.arcs = arcs;
         this.origin = arcs.size() > 0 ? arcs.get(0).getOrigin() : null;
     }
-
+    public boolean equals(Path y)
+    {
+    	if(this.isEmpty() != y.isEmpty())return false;
+    	if(this.getDestination() != y.getDestination())return false;
+    	if(this.getLength() != y.getLength())return false;
+    	if(this.getGraph() != y.getGraph())return false;
+    	
+    	return true;
+    }
     /**
      * @return Graph containing the path.
      */
@@ -314,8 +322,8 @@ public class Path {
      */
     public float getLength() {
     	float length = 0;
-    	for(int i = 0; i<arcs.size();i++) {
-        	length+= arcs.get(i).getLength();
+    	for(Arc a : arcs) {
+        	length+= a.getLength();
         }
 
         return length;

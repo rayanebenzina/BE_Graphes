@@ -51,7 +51,16 @@ public class ShortestPathSolution extends AbstractSolution {
     public Path getPath() {
         return path;
     }
-
+    public boolean equals(ShortestPathSolution y)
+    {
+    	if(this.getStatus() != y.getStatus())return false;
+    	if(this.getInputData() != y.getInputData())return false;
+    	if(this.isFeasible())
+    	{
+    		if(!this.getPath().equals(y.getPath()))return false;
+    	}
+    	return true;
+    }
     @Override
     public String toString() {
         String info = null;

@@ -20,7 +20,7 @@ public class ArcInspectorFactory {
 
         // Common filters:
 
-        // No filter (all arcs allowed):
+        // No filter (all arcs allowed): Length
         filters.add(new ArcInspector() {
             @Override
             public boolean isAllowed(Arc arc) {
@@ -78,7 +78,7 @@ public class ArcInspectorFactory {
             }
         });
 
-        // Only road allowed for cars and time:
+        // No filter : Time
 
         filters.add(new ArcInspector() {
             @Override
@@ -106,7 +106,57 @@ public class ArcInspectorFactory {
                 return "Fastest path, all roads allowed";
             }
         });
-
+        //Pedestrian and length
+        filters.add(new ArcInspector() {
+			@Override
+			public boolean isAllowed(Arc arc) {
+				if (arc.getRoadInformation().getAccessRestrictions().isAllowedFor(AccessMode.FOOT, AccessRestriction.ALLOWED))
+					return true ;
+				else 
+					return false;
+			}
+			@Override
+			public double getCost(Arc arc) {
+				return arc.getLength() ; 
+			}
+			@Override
+			public int getMaximumSpeed() {
+				return GraphStatistics.NO_MAXIMUM_SPEED ; 
+			}
+			@Override
+			public Mode getMode() {
+				return Mode.LENGTH ; 
+			}
+			public String toString() {
+				return "Shortest Path : all roads allowed" ; 
+			}
+		});
+        //Pedestrian and time;
+        filters.add(new ArcInspector() {
+			@Override
+			public boolean isAllowed(Arc arc) {
+				if (arc.getRoadInformation().getAccessRestrictions().isAllowedFor(AccessMode.FOOT, AccessRestriction.ALLOWED))
+					return true ;
+				else 
+					return false;
+			}
+			@Override
+			public double getCost(Arc arc) {
+				return arc.getMinimumTravelTime() ; 
+			}
+			@Override
+			public int getMaximumSpeed() {
+				return GraphStatistics.NO_MAXIMUM_SPEED ; 
+			}
+			@Override
+			public Mode getMode() {
+				return Mode.TIME ; 
+			}
+			public String toString() {
+				return "Shortest Path : all roads allowed" ; 
+			}
+		});
+        // Cars and time
         filters.add(new ArcInspector() {
             @Override
             public boolean isAllowed(Arc arc) {

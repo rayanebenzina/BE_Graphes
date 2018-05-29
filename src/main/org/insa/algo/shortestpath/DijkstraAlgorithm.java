@@ -62,9 +62,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 			arc = labels[arc.getOrigin().getId()].getPere();
 		}
 		Collections.reverse(path);
-		
 		return new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph, path));
-    	
     }
     
     private void process()
@@ -75,7 +73,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 			Label lx = tas.deleteMin();
 			idx = lx.getId();
 			Node nx = graph.get(idx);
-			notifyNodeMarked(nx);
 			lx.Mark();
 			ArrayList<Arc> successors = nx.getSuccessors();
 			for(Arc successor : successors)
