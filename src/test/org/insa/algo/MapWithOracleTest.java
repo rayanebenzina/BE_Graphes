@@ -37,12 +37,6 @@ public class MapWithOracleTest {
 	{
 		return algo.run();
 	}
-	public static double duration(ShortestPathAlgorithm algo)
-	{
-		ShortestPathSolution result = algo.run();
-		return result.getSolvingTime().getSeconds();
-	}
-
 
 	// Rester sur place, le plus court
 	@Test
@@ -50,7 +44,7 @@ public class MapWithOracleTest {
 
 		ArcInspector aI = ArcInspectorFactory.getAllFilters().get(0);
 
-		ShortestPathData data = new ShortestPathData(graph, graph.get(8128), graph.get(8128), aI);
+		ShortestPathData data = new ShortestPathData(graph, graph.get(1234), graph.get(1234), aI);
 		ShortestPathSolution b = result(new BellmanFordAlgorithm(data));
 		assertTrue(b.equals(result(new DijkstraAlgorithm(data))));
 		assertTrue(b.equals(result(new AStarAlgorithm(data))));
@@ -62,14 +56,14 @@ public class MapWithOracleTest {
 	public void shortestWithLegsTest() throws IOException{
 
 		ArcInspector aI = ArcInspectorFactory.getAllFilters().get(3);
-		ShortestPathData data = new ShortestPathData(graph, graph.get(8128), graph.get(4132), aI);
+		ShortestPathData data = new ShortestPathData(graph, graph.get(1234), graph.get(4132), aI);
 		ShortestPathSolution b = result(new BellmanFordAlgorithm(data));
 		assertTrue(b.equals(result(new DijkstraAlgorithm(data))));
 		assertTrue(b.equals(result(new AStarAlgorithm(data))));
 
 	}
 	
-	/* pedestrian en temps */
+	/* A pieds, le plus rapide */
 	@Test
 	public void fastestWithLegsTest() throws IOException{	
 

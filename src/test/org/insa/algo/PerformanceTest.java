@@ -5,10 +5,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.time.Duration;
-import java.time.Instant;
-
 import org.insa.algo.shortestpath.AStarAlgorithm;
 import org.insa.algo.shortestpath.BellmanFordAlgorithm;
 import org.insa.algo.shortestpath.DijkstraAlgorithm;
@@ -22,28 +20,11 @@ import org.junit.Test;
 
 public class PerformanceTest
 {
-	private static Graph carredense, fractalspiral, hautegaronne;
-
-	@BeforeClass
-	public static void initAll(){
-		
-		try
-		{
-			hautegaronne = (new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream("haute-garonne.mapgr"))))).read();
-			fractalspiral = (new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream("fractal-spiral.mapgr"))))).read();
-			carredense = (new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream("carre-dense.mapgr"))))).read();
-			
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-		
-
-	}
 	public static ShortestPathSolution result(ShortestPathAlgorithm algo)
 	{
 		return algo.run();
 	}
+	
 	public static double averageduration(ShortestPathAlgorithm algo)
 	{
 		double begin = System.nanoTime();
@@ -51,10 +32,19 @@ public class PerformanceTest
 		double end = System.nanoTime();
 		return (end-begin);
 	}
-	
 	@Test
 	public void hauteGaronneTest()
 	{
+		Graph hautegaronne = null;
+		try {
+			hautegaronne = (new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream("haute-garonne.mapgr"))))).read();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		ArcInspector aI =ArcInspectorFactory.getAllFilters().get(0);
 		ShortestPathData data = new ShortestPathData(hautegaronne, hautegaronne.get(6), hautegaronne.get(21), aI);
 		double b = averageduration(new BellmanFordAlgorithm(data));
@@ -66,6 +56,15 @@ public class PerformanceTest
 	@Test
 	public void carreDenseTest()// d'un coin à l'autre, A* bat tous les records
 	{
+		Graph carredense = null;
+		try
+		{
+			carredense = (new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream("carre-dense.mapgr"))))).read();
+			
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 		ArcInspector aI =ArcInspectorFactory.getAllFilters().get(0);
 		ShortestPathData data = new ShortestPathData(carredense, carredense.get(321931), carredense.get(190456), aI);
 		double b = averageduration(new BellmanFordAlgorithm(data));
@@ -77,6 +76,17 @@ public class PerformanceTest
 	@Test
 	public void fractalSpiralTest()// du centre à l'exterieur, BellmanFord gagne
 	{
+		Graph fractalspiral = null;
+		try {
+			fractalspiral = (new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream("fractal-spiral.mapgr"))))).read();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		ArcInspector aI =ArcInspectorFactory.getAllFilters().get(0);
 		ShortestPathData data = new ShortestPathData(fractalspiral, fractalspiral.get(611565), fractalspiral.get(139116), aI);
 		double b = averageduration(new BellmanFordAlgorithm(data));
@@ -88,6 +98,16 @@ public class PerformanceTest
 	@Test
 	public void fractalSpiralTest2()// de l'exterieur au centre, A* gagne
 	{
+		Graph fractalspiral = null;
+		try {
+			fractalspiral = (new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream("fractal-spiral.mapgr"))))).read();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		ArcInspector aI =ArcInspectorFactory.getAllFilters().get(0);
 		ShortestPathData data = new ShortestPathData(fractalspiral, fractalspiral.get(139116), fractalspiral.get(611565), aI);
 		double b = averageduration(new BellmanFordAlgorithm(data));

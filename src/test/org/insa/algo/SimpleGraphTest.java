@@ -25,7 +25,7 @@ public class SimpleGraphTest{
 	@BeforeClass
 	public static void initAll(){
 		
-		RoadInformation rI = new RoadInformation(RoadType.MOTORWAY, null, true, 1, "");
+		RoadInformation rI = new RoadInformation(RoadType.UNCLASSIFIED, null, true, 1, "");
 		bResults = new ArrayList<ShortestPathSolution>();
 		dResults = new ArrayList<ShortestPathSolution>();
 		
